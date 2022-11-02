@@ -46,7 +46,7 @@ public class PostController {
     private final PostService postService;
    @PostMapping("/posts")
     public Map<String, String> post(@RequestBody @Valid PostCreate request) throws Exception {
-
+       postService.write(request);
        //변경할 수 없는 맵을 만들어준다.
        return Map.of();
     }
