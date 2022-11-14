@@ -1,5 +1,6 @@
 package com.blog.controller;
 
+import com.blog.domain.Post;
 import com.blog.request.PostCreate;
 import com.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,12 @@ public class PostController {
        //   -> 서버에서 차라리 유연하게 대응하는게 좋다. -> 코드를 잘 짜야한다.
        //   -> 한 번에 일괄적으로 잘 처리되는 케이스가 없으니 잘 관리하는 형태가 중요하다.
        postService.write(request);
+    }
+
+    @GetMapping("/posts/{postId}")
+    public Post get(@PathVariable(name = "postId") Long id){
+        Post post = postService.get(id);
+        return post;
     }
 
 }

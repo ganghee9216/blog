@@ -56,7 +56,7 @@ class PostControllerTest {
                       .content(json)
               ) // application/json
               .andExpect(status().isOk())
-              .andExpect(content().string("{}"))
+              .andExpect(content().string(""))
               .andDo(print());
    }
    @Test
@@ -91,17 +91,38 @@ class PostControllerTest {
               .build();
 
       String json = objectMapper.writeValueAsString(request);
-      //expected
+      //when
       mockMvc.perform(post("/posts")
                       .contentType(APPLICATION_JSON)
                       .content(json)
               )
               .andExpect(status().isOk())
               .andDo(print());
+
+      //then
       assertEquals(1L, postRepository.count());
 
       Post post = postRepository.findAll().get(0);
       assertEquals("제목입니다.", post.getTitle());
       assertEquals("내용입니다.", post.getContent());
+   }
+   @Test
+   @DisplayName("글 한 개 조회")
+   void test4() throws Exception {
+      //given
+      Post post = Post.builder()
+              .title("foo")
+              .content("bar")
+              .build();
+      postRepository.save(post);
+
+      //expected
+      mockMvc.perform(get("/posts/{postId}", post.getId())
+                      .contentType(APPLICATION_JSON))
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$.id").value(post.getId()))
+              .andExpect(jsonPath("$.title").value("foo"))
+              .andExpect(jsonPath("$.content").value("bar"))
+              .andDo(print());
    }
 }
