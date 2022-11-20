@@ -3,6 +3,7 @@ package com.blog.service;
 import com.blog.domain.Post;
 import com.blog.repository.PostRepository;
 import com.blog.request.PostCreate;
+import com.blog.response.PostResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -55,13 +56,16 @@ class PostServiceTest {
                 .build();
         postRepository.save(requestPost);
 
+        //클라이언트 요구사항
+        //  json응답에서 title값 길이를 최대 10글자로 해주세요
+
         //when
-        Post post = postService.get(requestPost.getId());
+        PostResponse response = postService.get(requestPost.getId());
 
         //then
-        assertNotNull(post);
-        assertEquals("foo", post.getTitle());
-        assertEquals("bar", post.getContent());
+        assertNotNull(response);
+        assertEquals("foo", response.getTitle());
+        assertEquals("bar", response.getContent());
     }
 
 }

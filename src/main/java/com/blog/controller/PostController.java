@@ -1,7 +1,7 @@
 package com.blog.controller;
 
-import com.blog.domain.Post;
 import com.blog.request.PostCreate;
+import com.blog.response.PostResponse;
 import com.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,9 +53,8 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public Post get(@PathVariable(name = "postId") Long id){
-        Post post = postService.get(id);
-        return post;
+    public PostResponse get(@PathVariable(name = "postId") Long id){
+        PostResponse response = postService.get(id);
+        return response;
     }
-
 }
